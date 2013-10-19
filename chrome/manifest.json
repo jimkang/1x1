@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+
+  "name": "1x1",
+  "description": "Read a web page one sentence at a time using the arrow keys.",
+  "version": "1.0.0",
+
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ],
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+
+  "browser_action": {
+    "default_icon": {
+      "19": "PlayAll_icon_19.png",
+      "38": "PlayAll_icon_38.png"
+    }
+  },
+
+  "icons": {
+    "16": "PlayAll_icon_16.png",
+    "48": "PlayAll_icon_48.png",
+    "128": "PlayAll_icon_128.png"
+  }
+}
+
