@@ -3,7 +3,7 @@
 function createParser() {
   var Parser = {
     textFragments: [],
-    fragmentCutoff: 80
+    fragmentCutoff: 100
   };
 
   Parser.parsePage = function parsePage() {
