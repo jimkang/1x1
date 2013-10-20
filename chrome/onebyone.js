@@ -68,7 +68,7 @@ OneByOne.load = function load() {
   var drapeEl = this.createDrape();
   this.textlayer = this.createTextlayer(drapeEl);
 
-  this.parser.parsePage();
+  this.parser.parsePageWithReadability();
   this.displayNextFragment();
 
   document.addEventListener('keyup', this.respondToDocKeyUp.bind(this));
