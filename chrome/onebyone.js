@@ -1,5 +1,5 @@
 var OneByOne = {
-  fragmentIndex: 0,
+  fragmentIndex: -1,
   textlayer: null,
   parser: createParser()
 };
@@ -15,6 +15,7 @@ OneByOne.insertCSS = function insertCSS() {
 OneByOne.createDrape = function createDrape() {
   var drape = document.createElement('div');
   drape.id = 'drape';
+
   document.body.appendChild(drape);
   return drape;
 };
