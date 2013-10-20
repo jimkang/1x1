@@ -1,0 +1,18 @@
+#drape {
+  background-color: purple;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#textlayer {
+  font-size: 5em;
+  color: white;
+}

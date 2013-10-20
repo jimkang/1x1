@@ -3,13 +3,29 @@ var OneByOne = {
   paragraphs: []  
 };
 
+OneByOne.insertCSS = function insertCSS() {
+  var link = document.createElement('link');
+  link.href = chrome.extension.getURL('onebyone.css');
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  document.getElementsByTagName('head')[0].appendChild(link);
+};
+
 OneByOne.createDrape = function createDrape() {
   var drape = document.createElement('div');
   drape.id = 'drape';
-  drape.style.backgroundColor = 'yellow';
-  drape.style.position = 'absolute';
   document.body.appendChild(drape);
   return drape;
+};
+
+OneByOne.createTextlayer = function createTextlayer(drapeEl) {
+  var textlayer = document.createElement('div');
+  textlayer.id = 'textlayer';
+  textlayer.innerHTML = 'Hay guys';
+
+  drapeEl.appendChild(textlayer);
+
+  return textlayer;
 };
 
 OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
@@ -51,8 +67,11 @@ OneByOne.load = function load() {
   if (existingDrape) {
     return;
   }
-  
-  this.createDrape();
+
+  this.insertCSS();  
+  var drapeEl = this.createDrape();
+  var textlayer = this.createTextlayer(drapeEl);
+
   document.addEventListener('keyup', this.respondToDocKeyUp.bind(this));
 };
 
