@@ -64,11 +64,12 @@ OneByOne.load = function load() {
     return;
   }
 
+  this.parser.parsePageWithReadability();
+
   this.insertCSS();  
   var drapeEl = this.createDrape();
   this.textlayer = this.createTextlayer(drapeEl);
 
-  this.parser.parsePageWithReadability();
   this.displayNextFragment();
 
   document.addEventListener('keyup', this.respondToDocKeyUp.bind(this));
