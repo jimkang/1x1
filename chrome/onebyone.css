@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 #textlayer {
@@ -18,3 +19,35 @@
   color: #eee;
   margin: 2em;
 }
+
+#chunknav {
+  position: fixed;
+  z-index: 10000;
+  bottom: 1em;
+  right: 2em;
+
+  color: #222;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+
+  background-color: #eee;
+  border-radius: 0.4em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+
+  opacity: 0.1;
+}
+
+.visible-chunk-nav {
+  opacity: 0.3;
+  transition: opacity 0.4s;  
+}
+
+.invisible-chunk-nav {
+  opacity: 0;
+  transition: opacity 1.0s;  
+}
+

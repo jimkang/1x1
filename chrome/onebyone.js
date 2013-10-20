@@ -1,6 +1,8 @@
 var OneByOne = {
   chunkIndex: 0,
   textlayer: null,
+  chunkNavEl: null,
+  indexDisplayEl: null,
   parser: createParser()
 };
 
@@ -29,6 +31,21 @@ OneByOne.createTextlayer = function createTextlayer(drapeEl) {
   return textlayer;
 };
 
+OneByOne.createChunkNav = function createChunkNav() {
+  var chunknav = document.createElement('div');
+  chunknav.id = 'chunknav';
+  document.body.appendChild(chunknav);
+
+  this.indexDisplayEl = document.createElement('span');
+  this.indexDisplayEl.id = 'indexDisplay';
+  this.indexDisplayEl.innerText = '666';
+  chunknav.appendChild(this.indexDisplayEl);
+
+  // chunknav.classList.add('invisible-chunk-nav');
+
+  return chunknav;
+};
+
 OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
   // Esc
   if (e.keyCode === 27) {
@@ -38,17 +55,21 @@ OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
   }
   else {
     switch (e.which) {
-      // Down arrow.
-      case 40:
       // Right arrow.
       case 39:
         this.turnChunk(1);
         break;
-      // Up arrow.
-      case 38:
+      // Down arrow.
+      case 40:
+        this.turnChunk(10);
+        break;        
       // Left arrow.
       case 37:
         this.turnChunk(-1);
+        break;
+    // Up arrow.
+      case 38:
+        this.turnChunk(-10);
         break;
     }
   }
@@ -68,6 +89,18 @@ OneByOne.changeFragIndex = function changeFragIndex(howMuch) {
 OneByOne.turnChunk = function turnChunk(howMuchToTurnBy) {
   this.changeFragIndex(howMuchToTurnBy);
   this.textlayer.innerText = this.parser.textChunks[this.chunkIndex];
+  this.indexDisplayEl.innerText = 
+    (this.chunkIndex + 1) + ' of ' + this.parser.textChunks.length;
+  
+  // this.chunkNavEl.classList.add('visible-chunk-nav');
+  // this.chunkNavEl.classList.remove('invisible-chunk-nav');
+
+  // setTimeout(function makeChunkNavInvisible() {
+  //   this.chunkNavEl.classList.remove('visible-chunk-nav');
+  //   this.chunkNavEl.classList.add('invisible-chunk-nav');
+  // }
+  // .bind(this),
+  // 1500);
 };
 
 OneByOne.load = function load() {
@@ -81,6 +114,7 @@ OneByOne.load = function load() {
   this.insertCSS();  
   var drapeEl = this.createDrape();
   this.textlayer = this.createTextlayer(drapeEl);
+  this.chunkNavEl = this.createChunkNav(drapeEl);
 
   this.turnChunk(0);
 
