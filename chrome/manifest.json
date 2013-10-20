@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "1x1",
-  "description": "Read a web page one sentence at a time using the arrow keys.",
+  "name": "Chunks",
+  "description": "Having trouble digesting something? Read web pages a chunk at a time using the arrow keys.",
   "version": "1.0.0",
 
   "permissions": [
