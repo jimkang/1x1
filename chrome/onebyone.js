@@ -32,6 +32,9 @@ OneByOne.createTextlayer = function createTextlayer(drapeEl) {
 OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
   // Esc
   if (e.keyCode === 27) {
+    // Since Readability alters the page (for now), the only  way out is to 
+    // reload the page. 
+    location.reload(false);
   }
   else {
     switch (e.which) {
