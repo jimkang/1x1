@@ -3,7 +3,7 @@
 function createParser() {
   var Parser = {
     textChunks: [],
-    chunkCutoff: 100
+    chunkCutoff: 150
   };
 
   Parser.parsePage = function parsePage() {
@@ -31,10 +31,29 @@ function createParser() {
     contentChunks.forEach(this.storeChunksFromContent.bind(this));
   };
 
-  Parser.storeChunksFromContent = 
-  function storeChunksFromContent(content) {
-  
-    var words = content.split(' ');
+  Parser.storeChunksFromContent = function storeChunksFromContent(content) {
+    debugger;
+    var paragraphs = this.textToParagraphs(content);
+    if (paragraphs) {
+      for (var j = 0; j < paragraphs.length; ++j) {
+        var sentences = this.paragraphToSentences(paragraphs[j]);
+        if (sentences) {
+          for (var i = 0; i < sentences.length; ++i) {
+            var sentence = sentences[i];
+            if (sentence.length < this.chunkCutoff) {
+              this.textChunks.push(sentence);
+            }
+            else {
+              this.storeChunksFromSentence(sentence);
+            }
+          }
+        }      
+      }
+    }
+  };
+
+  Parser.storeChunksFromSentence = function storeChunksFromSentence(sentence) {
+    var words = sentence.split(' ');
     var chunk = '';
     for (var i = 0; i < words.length; ++i) {
       var word = words[i];
@@ -50,6 +69,19 @@ function createParser() {
     if (chunk.length > 0) {
       this.textChunks.push(chunk);
     }
+  };
+
+  // Regex lifted from text-parse.
+  // https://github.com/srmor/text-parse/blob/master/lib/text-parse.js
+  Parser.textToParagraphs = function textToParagraphs(text) {
+    return text.split( /[\r\n|\n|\r]+/g );
+  };
+
+  // Regex lifted from text-parse.
+  // https://github.com/srmor/text-parse/blob/master/lib/text-parse.js
+  Parser.paragraphToSentences = function paragraphToSentences(paragraph) {
+    paragraph = paragraph.trim();
+    return paragraph.match( /[^\.!\?]+[\.!\?(?="|')]+(\s|$)/g );
   };
 
   return Parser;
