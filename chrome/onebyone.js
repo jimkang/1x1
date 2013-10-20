@@ -1,6 +1,7 @@
 var OneByOne = {
-  sentences: [],
-  paragraphs: []  
+  fragmentIndex: 0,
+  textlayer: null,
+  parser: createParser()
 };
 
 OneByOne.insertCSS = function insertCSS() {
@@ -21,8 +22,7 @@ OneByOne.createDrape = function createDrape() {
 OneByOne.createTextlayer = function createTextlayer(drapeEl) {
   var textlayer = document.createElement('div');
   textlayer.id = 'textlayer';
-  textlayer.innerHTML = 'Hay guys';
-
+  
   drapeEl.appendChild(textlayer);
 
   return textlayer;
@@ -62,6 +62,14 @@ OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
   }
 };
 
+OneByOne.displayNextFragment = function displayNextFragment() {
+  ++this.fragmentIndex;
+  if (this.fragmentIndex >= this.parser.textFragments.length) {
+    this.fragmentIndex = 0;
+  }
+  this.textlayer.innerText = this.parser.textFragments[this.fragmentIndex];
+};
+
 OneByOne.load = function load() {
   var existingDrape = document.querySelector('#drape');
   if (existingDrape) {
@@ -70,7 +78,10 @@ OneByOne.load = function load() {
 
   this.insertCSS();  
   var drapeEl = this.createDrape();
-  var textlayer = this.createTextlayer(drapeEl);
+  this.textlayer = this.createTextlayer(drapeEl);
+
+  this.parser.parsePage();
+  this.displayNextFragment();
 
   document.addEventListener('keyup', this.respondToDocKeyUp.bind(this));
 };
