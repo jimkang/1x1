@@ -1,5 +1,5 @@
 var OneByOne = {
-  fragmentIndex: 0,
+  chunkIndex: 0,
   textlayer: null,
   parser: createParser()
 };
@@ -42,32 +42,32 @@ OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
       case 40:
       // Right arrow.
       case 39:
-        this.turnFragment(1);
+        this.turnChunk(1);
         break;
       // Up arrow.
       case 38:
       // Left arrow.
       case 37:
-        this.turnFragment(-1);
+        this.turnChunk(-1);
         break;
     }
   }
 };
 
 OneByOne.changeFragIndex = function changeFragIndex(howMuch) {
-  this.fragmentIndex += howMuch;
+  this.chunkIndex += howMuch;
 
-  if (this.fragmentIndex >= this.parser.textFragments.length) {
-    this.fragmentIndex = 0;
+  if (this.chunkIndex >= this.parser.textChunks.length) {
+    this.chunkIndex = 0;
   }
-  else if (this.fragmentIndex < 0) {
-    this.fragmentIndex = this.parser.textFragments.length - 1;
+  else if (this.chunkIndex < 0) {
+    this.chunkIndex = this.parser.textChunks.length - 1;
   }
 };
 
-OneByOne.turnFragment = function turnFragment(howMuchToTurnBy) {
+OneByOne.turnChunk = function turnChunk(howMuchToTurnBy) {
   this.changeFragIndex(howMuchToTurnBy);
-  this.textlayer.innerText = this.parser.textFragments[this.fragmentIndex];
+  this.textlayer.innerText = this.parser.textChunks[this.chunkIndex];
 };
 
 OneByOne.load = function load() {
@@ -82,7 +82,7 @@ OneByOne.load = function load() {
   var drapeEl = this.createDrape();
   this.textlayer = this.createTextlayer(drapeEl);
 
-  this.turnFragment(0);
+  this.turnChunk(0);
 
   document.addEventListener('keyup', this.respondToDocKeyUp.bind(this));
 };

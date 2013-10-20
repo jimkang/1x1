@@ -2,14 +2,14 @@
 
 function createParser() {
   var Parser = {
-    textFragments: [],
-    fragmentCutoff: 100
+    textChunks: [],
+    chunkCutoff: 100
   };
 
   Parser.parsePage = function parsePage() {
     var containerNodes = document.querySelectorAll('div,span,li,p');
     for (var i = 0; i < containerNodes.length; ++i) {
-      this.storeFragmentsFromNode(containerNodes[i]);
+      this.storeChunksFromNode(containerNodes[i]);
     }    
   };
 
@@ -28,27 +28,27 @@ function createParser() {
     readability.prepDocument();
 
     var contentChunks = readability.grabArticleAsTextArray();
-    contentChunks.forEach(this.storeFragmentsFromContent.bind(this));
+    contentChunks.forEach(this.storeChunksFromContent.bind(this));
   };
 
-  Parser.storeFragmentsFromContent = 
-  function storeFragmentsFromContent(content) {
+  Parser.storeChunksFromContent = 
+  function storeChunksFromContent(content) {
   
     var words = content.split(' ');
-    var fragment = '';
+    var chunk = '';
     for (var i = 0; i < words.length; ++i) {
       var word = words[i];
       if (word.length > 0 && word[0] !== '\n') {
-        fragment += (word + ' ');
-        if (fragment.length > this.fragmentCutoff) {
-          this.textFragments.push(fragment);
-          fragment = '';
+        chunk += (word + ' ');
+        if (chunk.length > this.chunkCutoff) {
+          this.textChunks.push(chunk);
+          chunk = '';
         }
       }
     }
 
-    if (fragment.length > 0) {
-      this.textFragments.push(fragment);
+    if (chunk.length > 0) {
+      this.textChunks.push(chunk);
     }
   };
 
