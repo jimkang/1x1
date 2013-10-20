@@ -5,7 +5,6 @@ function createParser() {
 
   Parser.parsePage = function parsePage() {
     var containerNodes = document.querySelectorAll('div,span,li,p');
-    debugger;
     for (var i = 0; i < containerNodes.length; ++i) {
       this.storeFragmentsFromNode(containerNodes[i]);
     }
