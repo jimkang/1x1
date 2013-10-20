@@ -32,7 +32,6 @@ function createParser() {
   };
 
   Parser.storeChunksFromContent = function storeChunksFromContent(content) {
-    debugger;
     var paragraphs = this.textToParagraphs(content);
     if (paragraphs) {
       for (var j = 0; j < paragraphs.length; ++j) {
