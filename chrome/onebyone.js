@@ -1,5 +1,5 @@
 var OneByOne = {
-  fragmentIndex: -1,
+  fragmentIndex: 0,
   textlayer: null,
   parser: createParser()
 };
@@ -39,23 +39,31 @@ OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
       case 40:
       // Right arrow.
       case 39:
-        this.displayNextFragment();
+        this.turnFragment(1);
         break;
       // Up arrow.
       case 38:
-        break;
       // Left arrow.
       case 37:
+        this.turnFragment(-1);
         break;
     }
   }
 };
 
-OneByOne.displayNextFragment = function displayNextFragment() {
-  ++this.fragmentIndex;
+OneByOne.changeFragIndex = function changeFragIndex(howMuch) {
+  this.fragmentIndex += howMuch;
+
   if (this.fragmentIndex >= this.parser.textFragments.length) {
     this.fragmentIndex = 0;
   }
+  else if (this.fragmentIndex < 0) {
+    this.fragmentIndex = this.parser.textFragments.length - 1;
+  }
+};
+
+OneByOne.turnFragment = function turnFragment(howMuchToTurnBy) {
+  this.changeFragIndex(howMuchToTurnBy);
   this.textlayer.innerText = this.parser.textFragments[this.fragmentIndex];
 };
 
@@ -71,7 +79,7 @@ OneByOne.load = function load() {
   var drapeEl = this.createDrape();
   this.textlayer = this.createTextlayer(drapeEl);
 
-  this.displayNextFragment();
+  this.turnFragment(0);
 
   document.addEventListener('keyup', this.respondToDocKeyUp.bind(this));
 };
