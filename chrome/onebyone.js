@@ -88,8 +88,8 @@ OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
       case 38:
         this.turnChunk(-10);
         break;
-      // 'e'.
-      case 69:
+      // 'g'.
+      case 71:
         this.startIndexEditing();
         break;
     }
