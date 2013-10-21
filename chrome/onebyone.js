@@ -25,6 +25,10 @@ OneByOne.createDrape = function createDrape() {
 OneByOne.createTextlayer = function createTextlayer(drapeEl) {
   var textlayer = document.createElement('div');
   textlayer.id = 'textlayer';
+  textlayer.onclick = function respondToClick(e) {
+    this.turnChunk(1);
+  }
+  .bind(this);
   
   drapeEl.appendChild(textlayer);
 
