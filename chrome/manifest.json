@@ -3,7 +3,7 @@
 
   "name": "1x1",
   "description": "Having trouble digesting what you're reading? Read web pages a sentence at a time using the arrow keys.",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "permissions": [
     "tabs",
