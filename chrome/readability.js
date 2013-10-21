@@ -6,7 +6,7 @@
 /*global window: false, readConvertLinksToFootnotes: false, readStyle: false, readSize: false, readMargin: false, Typekit: false, ActiveXObject: false */
 
 var dbg = (typeof console !== 'undefined') ? function(s) {
-    console.log("Readability: " + s);
+    // console.log("Readability: " + s);
 } : function() {};
 
 /*
