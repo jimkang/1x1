@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Chunks",
-  "description": "Having trouble digesting something? Read web pages a chunk at a time using the arrow keys.",
+  "name": "1x1",
+  "description": "Having trouble digesting what you're reading? Read web pages a sentence at a time using the arrow keys.",
   "version": "1.0.0",
 
   "permissions": [
@@ -22,15 +22,15 @@
 
   "browser_action": {
     "default_icon": {
-      "19": "PlayAll_icon_19.png",
-      "38": "PlayAll_icon_38.png"
+      "19": "onebyone_icon_19.png",
+      "38": "onebyone_icon_38.png"
     }
   },
 
   "icons": {
-    "16": "PlayAll_icon_16.png",
-    "48": "PlayAll_icon_48.png",
-    "128": "PlayAll_icon_128.png"
+    "16": "onebyone_icon_16.png",
+    "48": "onebyone_icon_48.png",
+    "128": "onebyone_icon_128.png"
   }
 }
 
