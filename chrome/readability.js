@@ -713,7 +713,7 @@ var readability = {
      * @param page a document to run upon. Needs to be a full document, complete with body.
      * @return Array of contents of html elements that have high enough scores.
     **/
-    grabArticleAsTextArray: function grabArticleAsTextArray(page) {
+    grabArticleAsTextArray: function grabArticleAsTextArray(page) {        
         var textGroups = [];
 
         var stripUnlikelyCandidates = readability.flagIsActive(readability.FLAG_STRIP_UNLIKELYS),
@@ -758,7 +758,7 @@ var readability = {
             }
 
             /* Turn all divs that don't have children block level elements into p's */
-            if (node.tagName === "DIV") {
+            if (node.tagName === "DIV") {                
                 if (node.innerHTML.search(readability.regexps.divToPElements) === -1) {
                     var newNode = document.createElement('p');
                     try {
@@ -883,7 +883,6 @@ var readability = {
         var siblingScoreThreshold = Math.max(10, topCandidate.readability.contentScore * 0.2);
         var siblingNodes          = topCandidate.parentNode.childNodes;
 
-
         for(var s=0, sl=siblingNodes.length; s < sl; s+=1) {
             var siblingNode = siblingNodes[s];
             var append      = false;
@@ -949,17 +948,8 @@ var readability = {
                         s-=1;
                         sl-=1;
                     }
-                } else {
-                    nodeToAppend = siblingNode;
-                    s-=1;
-                    sl-=1;
                 }
                 
-                /* To ensure a node does not interfere with readability styles, remove its classnames */
-                nodeToAppend.className = "";
-
-                /* Append sibling and subtract from our list because it removes the node when you append to another node */
-                // articleContent.appendChild(nodeToAppend);
                 textGroups.push(siblingNode.innerText);
             }
         }
