@@ -3,6 +3,7 @@ var OneByOne = {
   textlayer: null,
   chunkNavEl: null,
   indexDisplayEl: null,
+  indexEditingHappening: false,
   parser: createParser()
 };
 
@@ -38,14 +39,15 @@ OneByOne.createTextlayer = function createTextlayer(drapeEl) {
 OneByOne.createChunkNav = function createChunkNav() {
   var chunknav = document.createElement('div');
   chunknav.id = 'chunknav';
+  chunknav.classList.add('reading-chunk');
+  chunknav.onclick = this.startIndexEditing.bind(this);
   document.body.appendChild(chunknav);
 
   this.indexDisplayEl = document.createElement('span');
   this.indexDisplayEl.id = 'indexDisplay';
-  this.indexDisplayEl.innerText = '666';
+  this.indexDisplayEl.addEventListener('keydown', 
+    this.restrictElInputToNumerals);
   chunknav.appendChild(this.indexDisplayEl);
-
-  // chunknav.classList.add('invisible-chunk-nav');
 
   return chunknav;
 };
@@ -53,9 +55,20 @@ OneByOne.createChunkNav = function createChunkNav() {
 OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
   // Esc
   if (e.keyCode === 27) {
-    // Since Readability alters the page (for now), the only  way out is to 
-    // reload the page. 
-    location.reload(false);
+    if (this.indexEditingHappening) {
+      this.endIndexEditing();
+    }
+    else {
+      // Since Readability alters the page (for now), the only  way out is to 
+      // reload the page. 
+      location.reload(false);
+    }
+  }
+  else if (this.indexEditingHappening) {
+    // Enter
+    if (e.which === 13) {
+      this.endIndexEditing();
+    }
   }
   else {
     switch (e.which) {
@@ -71,17 +84,47 @@ OneByOne.respondToDocKeyUp = function respondToDocKeyUp(e) {
       case 37:
         this.turnChunk(-1);
         break;
-    // Up arrow.
+      // Up arrow.
       case 38:
         this.turnChunk(-10);
+        break;
+      // 'e'.
+      case 69:
+        this.startIndexEditing();
         break;
     }
   }
 };
 
+// http://stackoverflow.com/a/995193/87798
+OneByOne.restrictElInputToNumerals = function restrictElInputToNumerals(event) {
+  switch (event.keyCode) {
+    // Allow: backspace, delete, tab, escape, enter and .
+    case 46: case 8: case 9: case 27: case 13: case 190:
+     // Allow: home, end, left, right
+    case 35: case 36: case 37: case 38: case 39:
+      return;
+    default:
+      // Allow cmd+A, ctrl+A.
+      if (event.keyCode == 65 && (event.metaKey || event.ctrlKey === true)) {
+         return;
+      }
+  }
+
+  // Ensure that it is a number and stop the keypress
+  if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && 
+    (event.keyCode < 96 || event.keyCode > 105 )) {
+
+    event.preventDefault();
+  }
+};
+
 OneByOne.changeFragIndex = function changeFragIndex(howMuch) {
   this.chunkIndex += howMuch;
+  this.makeIndexSane();
+};
 
+OneByOne.makeIndexSane = function makeIndexSane() {
   if (this.chunkIndex >= this.parser.textChunks.length) {
     this.chunkIndex = 0;
   }
@@ -95,17 +138,34 @@ OneByOne.turnChunk = function turnChunk(howMuchToTurnBy) {
   this.textlayer.innerText = this.parser.textChunks[this.chunkIndex];
   this.indexDisplayEl.innerText = 
     (this.chunkIndex + 1) + ' of ' + this.parser.textChunks.length;
-  
-  // this.chunkNavEl.classList.add('visible-chunk-nav');
-  // this.chunkNavEl.classList.remove('invisible-chunk-nav');
-
-  // setTimeout(function makeChunkNavInvisible() {
-  //   this.chunkNavEl.classList.remove('visible-chunk-nav');
-  //   this.chunkNavEl.classList.add('invisible-chunk-nav');
-  // }
-  // .bind(this),
-  // 1500);
 };
+
+OneByOne.startIndexEditing = function startIndexEditing() {
+  this.indexEditingHappening = true;
+  this.indexDisplayEl.innerText = this.chunkIndex + 1;
+  this.chunkNavEl.classList.add('editing-chunk');
+  this.indexDisplayEl.contentEditable = true;
+  this.indexDisplayEl.focus();
+
+  var selection = window.getSelection();            
+  var range = document.createRange();
+  range.selectNodeContents(this.indexDisplayEl);
+  selection.removeAllRanges();
+  selection.addRange(range);
+};
+
+OneByOne.endIndexEditing = function endIndexEditing() {
+  this.indexDisplayEl.blur();
+  this.indexEditingHappening = false;
+  var newIndex = parseInt(this.indexDisplayEl.innerText) - 1;
+  this.chunkNavEl.classList.remove('editing-chunk');
+  this.indexDisplayEl.contentEditable = false;
+
+  this.chunkIndex = newIndex;
+  this.makeIndexSane();
+  this.turnChunk(0);
+};
+
 
 OneByOne.load = function load() {
   var existingDrape = document.querySelector('#drape');

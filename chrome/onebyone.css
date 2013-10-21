@@ -27,19 +27,13 @@
   bottom: 1em;
   right: 2em;
 
-  color: #222;
   font-family: 'Helvetica Neue', sans-serif;
-  font-weight: bold;
-  font-size: 24px;
 
-  background-color: #eee;
   border-radius: 0.4em;
   padding-left: 0.5em;
   padding-right: 0.5em;
   padding-top: 0.4em;
   padding-bottom: 0.4em;
-
-  opacity: 0.05;
 }
 
 .visible-chunk-nav {
@@ -50,5 +44,19 @@
 .invisible-chunk-nav {
   opacity: 0;
   transition: opacity 1.0s;  
+}
+
+.reading-chunk {
+  color: #222;
+  font-weight: bold;
+  font-size: 24px;
+  background-color: #eee;
+  opacity: 0.05;
+}
+
+.editing-chunk {
+  opacity: 1.0;
+  color: #222;
+  font-size: 60px;
 }
 
