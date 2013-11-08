@@ -1,23 +1,8 @@
+var scriptchain = createScriptChain(
+  ['readability.js', 'parser.js', 'onebyone.js'], null, false
+);
+
 chrome.browserAction.onClicked.addListener(function respondToClick(tab) {
-  chrome.tabs.executeScript(null, {
-    file: "readability.js",
-    allFrames: false
-  },
-  doWhenReadabilityIsLoaded);  
+  scriptchain.loadChain();
 });
-
-function doWhenReadabilityIsLoaded() {
-  chrome.tabs.executeScript(null, {
-    file: "parser.js",
-    allFrames: false
-  },
-  doWhenParserIsLoaded);   
-}
-
-function doWhenParserIsLoaded() {
-  chrome.tabs.executeScript(null, {
-    file: "onebyone.js",
-    allFrames: false
-  });
-}
 

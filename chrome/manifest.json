@@ -12,7 +12,7 @@
   ],
 
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["node_modules/scriptchain/scriptchain.js", "background.js"],
     "persistent": false
   },
 
